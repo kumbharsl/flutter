@@ -299,8 +299,8 @@ class _ToDoAppState extends State<ToDoApp> {
                 color: listOfColors[index % listOfColors.length],
                 boxShadow: const [
                   BoxShadow(
-                    offset: Offset(0, 10),
-                    color: Color.fromRGBO(0, 0, 0, 0.1),
+                    offset: Offset(10, 10),
+                    color: Color.fromRGBO(0, 0, 0, 0.3),
                     blurRadius: 10,
                   )
                 ],
@@ -335,7 +335,7 @@ class _ToDoAppState extends State<ToDoApp> {
                                 todoList[index].title,
                                 style: GoogleFonts.quicksand(
                                   fontWeight: FontWeight.w600,
-                                  fontSize: 15,
+                                  fontSize: 20,
                                   color: const Color.fromRGBO(0, 0, 0, 1),
                                 ),
                               ),
