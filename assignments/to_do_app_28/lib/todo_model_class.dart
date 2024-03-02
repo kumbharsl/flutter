@@ -1,5 +1,3 @@
-// todo_model_class.dart
-
 class ToDoModelClass {
   String title;
   String description;

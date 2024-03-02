@@ -10,7 +10,7 @@ class ToDoApp extends StatefulWidget {
 }
 
 class _ToDoAppState extends State<ToDoApp> {
-  ///TEXT EDITING CONTROLLERS
+  //TEXT EDITING CONTROLLERS
   TextEditingController dateController = TextEditingController();
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
@@ -30,7 +30,6 @@ class _ToDoAppState extends State<ToDoApp> {
             padding: EdgeInsets.only(
               left: 20,
               right: 20,
-
               ///TO AVOID THE KEYBOARD OVERLAP THE SCREEN
               bottom: MediaQuery.of(context).viewInsets.bottom,
             ),
@@ -162,6 +161,7 @@ class _ToDoAppState extends State<ToDoApp> {
                 const SizedBox(
                   height: 20,
                 ),
+                // Sumbit todolist card
                 Container(
                   height: 50,
                   width: 300,
@@ -310,7 +310,6 @@ class _ToDoAppState extends State<ToDoApp> {
                 padding: const EdgeInsets.all(10.0),
                 child: Column(
                   children: [
-                    //1
                     Row(
                       children: [
                         Container(
@@ -358,7 +357,6 @@ class _ToDoAppState extends State<ToDoApp> {
                     const SizedBox(
                       height: 14.0,
                     ),
-                    //2
                     Padding(
                       padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                       child: Row(
