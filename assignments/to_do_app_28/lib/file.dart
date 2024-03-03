@@ -30,6 +30,7 @@ class _ToDoAppState extends State<ToDoApp> {
             padding: EdgeInsets.only(
               left: 20,
               right: 20,
+
               ///TO AVOID THE KEYBOARD OVERLAP THE SCREEN
               bottom: MediaQuery.of(context).viewInsets.bottom,
             ),
@@ -40,7 +41,7 @@ class _ToDoAppState extends State<ToDoApp> {
                   height: 10,
                 ),
                 Text(
-                  "Create Task",
+                  "Create Tasks",
                   style: GoogleFonts.quicksand(
                     fontWeight: FontWeight.w600,
                     fontSize: 22,
@@ -277,9 +278,9 @@ class _ToDoAppState extends State<ToDoApp> {
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
         backgroundColor: const Color.fromRGBO(2, 167, 177, 1),
-        centerTitle: true,
+        // centerTitle: true,
         title: Text(
-          "TO-DO APP",
+          "Welcome Sagar...!",
           style: GoogleFonts.quicksand(
             fontWeight: FontWeight.w700,
             fontSize: 25,
