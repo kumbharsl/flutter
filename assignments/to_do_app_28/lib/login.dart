@@ -28,18 +28,10 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       // backgroundColor: const Color.fromARGB(255, 184, 100, 94),
       appBar: AppBar(
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(20),
-            bottomRight: Radius.circular(
-              20,
-            ),
-          ),
-        ),
-        backgroundColor: const Color.fromRGBO(2, 167, 177, 1),
+        backgroundColor: const Color.fromARGB(255, 185, 32, 212),
         // centerTitle: true,
         title: const Text(
-          'Hello Sagar...!',
+          'Welcome to ToDo App',
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.w700,
@@ -47,29 +39,40 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(
+              "assets/images/download2.png",
+            ),
+            opacity: 0.3,
+            fit: BoxFit.contain,
+          ),
+          // gradient: LinearGradient(
+          //   colors: [
+          //     // Color.fromARGB(255, 185, 32, 212),
+          //     // Color.fromARGB(255, 182, 60, 203),
+          //     // Color.fromARGB(255, 234, 128, 128),
+          //     Color.fromARGB(255, 255, 255, 255),
+          //   ],
+          //   begin: Alignment.topLeft,
+          //   end: Alignment.bottomRight,
+          // ),
+        ),
         child: Padding(
           padding:
-              const EdgeInsets.only(top: 100, bottom: 30, right: 20, left: 20),
+              const EdgeInsets.only(top: 10, bottom: 0, right: 20, left: 20),
           child: Form(
             key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // const SizedBox(
-                //   height: 20,
-                // ),
-                Image.network(
-                  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQr_IULLOXJT80cLu-eRqkRGrHY23yLEx4p0w&s',
-                  height: 80,
-                  width: 90,
+                Image.asset(
+                  'assets/images/download1.png',
+                  height: 120,
+                  width: 180,
                 ),
-                // Image.asset(
-                //   'assets/images/img.png',
-                //   height: 90,
-                //   width: 90,
-                // ),
                 const SizedBox(
                   height: 25,
                 ),
@@ -77,8 +80,13 @@ class _LoginPageState extends State<LoginPage> {
                   controller: userNameTextEditingController,
                   // key: userNameKey,
                   decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.transparent,
                     hintText: "Enter username",
-                    label: const Text("Enter username"),
+                    label: const Text(
+                      "Enter username",
+                      style: TextStyle(color: Colors.black),
+                    ),
                     border: OutlineInputBorder(
                       borderSide: const BorderSide(
                         color: Colors.black,
@@ -108,8 +116,13 @@ class _LoginPageState extends State<LoginPage> {
                   obscureText: flag,
                   obscuringCharacter: "*",
                   decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.transparent,
                     hintText: "Enter password",
-                    label: const Text("Enter password"),
+                    label: const Text(
+                      "Enter password",
+                      style: TextStyle(color: Colors.black),
+                    ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
@@ -136,7 +149,7 @@ class _LoginPageState extends State<LoginPage> {
                   },
                 ),
                 const SizedBox(
-                  height: 20,
+                  height: 30,
                 ),
                 SizedBox(
                   width: 300,
@@ -184,22 +197,6 @@ class _LoginPageState extends State<LoginPage> {
                           }
                         }
                       }
-
-                      // bool userNameValidated = userNameKey.currentState!.validate();
-                      // bool passwordValidated = passwordKey.currentState!.validate();
-                      // if (userNameValidated && passwordValidated) {
-                      //   ScaffoldMessenger.of(context).showSnackBar(
-                      //     const SnackBar(
-                      //       content: Text("Login Successful"),
-                      //     ),
-                      //   );
-                      // } else {
-                      //   ScaffoldMessenger.of(context).showSnackBar(
-                      //     const SnackBar(
-                      //       content: Text("Login Failed"),
-                      //     ),
-                      //   );
-                      // }
                     },
                     style: const ButtonStyle(
                       backgroundColor: MaterialStatePropertyAll(
@@ -215,7 +212,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),
