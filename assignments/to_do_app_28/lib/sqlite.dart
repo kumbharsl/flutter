@@ -51,8 +51,8 @@ void main() async {
     version: 1,
     onCreate: (db, version) async {
       await db.execute('''CREATE TABLE Player(
-        title TEXT,
-        description TEXT PRIMARY KEY,
+        title TEXT PRIMARY KEY,
+        description TEXT ,
         date TEXT
        )''');
     },
