@@ -164,7 +164,7 @@ class _LoginPageState extends State<LoginPage> {
                             () {
                               Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
-                                  builder: (context) => ToDoApp(),
+                                  builder: (context) => TodoApp(),
                                 ),
                               );
                               ScaffoldMessenger.of(context).showSnackBar(

@@ -1,422 +1,516 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import "package:to_do_app_28/todo_model_class.dart";
+import 'package:flutter_slidable/flutter_slidable.dart';
 
-class ToDoApp extends StatefulWidget {
-  const ToDoApp({super.key});
+class TodoApp extends StatefulWidget {
+  const TodoApp({super.key});
   @override
-  State<ToDoApp> createState() => _ToDoAppState();
+  State createState() => _TodoAppState();
 }
 
-class _ToDoAppState extends State<ToDoApp> {
-  //TEXT EDITING CONTROLLERS
-  TextEditingController dateController = TextEditingController();
-  TextEditingController titleController = TextEditingController();
+class UserData {
+  String task;
+  String description;
+  String date;
+
+  UserData({required this.task, required this.description, required this.date});
+}
+
+class _TodoAppState extends State {
+  List todoCard = [];
+
+  TextEditingController taskController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
-  void showBottomSheet(bool doedit, [ToDoModelClass? toDoModelObj]) {
-    showModalBottomSheet(
-        isScrollControlled: true,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(30.0),
-            topRight: Radius.circular(30.0),
-          ),
-        ),
-        isDismissible: true,
-        context: context,
-        builder: (context) {
-          return Padding(
-            padding: EdgeInsets.only(
-              left: 20,
-              right: 20,
+  TextEditingController dateController = TextEditingController();
 
-              ///TO AVOID THE KEYBOARD OVERLAP THE SCREEN
-              bottom: MediaQuery.of(context).viewInsets.bottom,
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  "Create Tasks",
-                  style: GoogleFonts.quicksand(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 22,
-                  ),
-                ),
-                const SizedBox(
-                  height: 12,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      "Title",
-                      style: GoogleFonts.quicksand(
-                        color: const Color.fromRGBO(0, 139, 148, 1),
-                        fontWeight: FontWeight.w400,
-                        fontSize: 15,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 3,
-                    ),
-                    TextField(
-                      controller: titleController,
-                      decoration: InputDecoration(
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(
-                            color: Color.fromRGBO(0, 139, 148, 1),
-                          ),
-                        ),
-                        border: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.purpleAccent),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    Text(
-                      "Description",
-                      style: GoogleFonts.quicksand(
-                        color: const Color.fromRGBO(0, 139, 148, 1),
-                        fontWeight: FontWeight.w400,
-                        fontSize: 15,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 3,
-                    ),
-                    TextField(
-                      controller: descriptionController,
-                      maxLines: 4,
-                      decoration: InputDecoration(
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(
-                            color: Color.fromRGBO(0, 139, 148, 1),
-                          ),
-                        ),
-                        border: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.purpleAccent),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    Text(
-                      "Date",
-                      style: GoogleFonts.quicksand(
-                        color: const Color.fromRGBO(0, 139, 148, 1),
-                        fontWeight: FontWeight.w400,
-                        fontSize: 15,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 3,
-                    ),
-                    TextField(
-                      controller: dateController,
-                      readOnly: true,
-                      decoration: InputDecoration(
-                        suffixIcon: const Icon(Icons.date_range_rounded),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(
-                            color: Color.fromRGBO(0, 139, 148, 1),
-                          ),
-                        ),
-                        border: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.purpleAccent),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      onTap: () async {
-                        DateTime? pickeddate = await showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(2024),
-                          lastDate: DateTime(2025),
-                        );
-                        String formatedDate =
-                            DateFormat.yMMMd().format(pickeddate!);
-                        setState(() {
-                          dateController.text = formatedDate;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                // Sumbit todolist card
-                Container(
-                  height: 50,
-                  width: 300,
-                  decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(30)),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      backgroundColor: const Color.fromRGBO(0, 139, 148, 1),
-                    ),
-                    onPressed: () {
-                      doedit ? submit(doedit, toDoModelObj) : submit(doedit);
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-                      Navigator.of(context).pop();
-                    },
-                    child: Text(
-                      "Submit",
-                      style: GoogleFonts.inter(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-              ],
-            ),
-          );
-        });
-  }
+  // GlobalKey<FormFieldState> taskKey = GlobalKey<FormFieldState>();
+  // GlobalKey<FormFieldState> descriptionKey = GlobalKey<FormFieldState>();
+  // GlobalKey<FormFieldState> dateKey = GlobalKey<FormFieldState>();
 
-  var listOfColors = [
-    const Color.fromRGBO(250, 232, 232, 1),
-    const Color.fromRGBO(232, 237, 250, 1),
-    const Color.fromRGBO(250, 249, 232, 1),
-    const Color.fromRGBO(250, 232, 250, 1),
-  ];
-  List<ToDoModelClass> todoList = [
-    ToDoModelClass(
-      title: "Take notes",
-      description: "Take notes of every app you write ",
-      date: "10 July 2023",
-    ),
-    ToDoModelClass(
-      title: "Arrange Meeting ",
-      description: "Meet the backend team ",
-      date: "10 July 2023",
-    ),
-  ];
-  void submit(bool doedit, [ToDoModelClass? toDoModelObj]) {
-    if (titleController.text.trim().isNotEmpty &&
+  void submitData(bool doEdit, [UserData? forEditUseDataObj]) {
+    if (taskController.text.trim().isNotEmpty &&
         descriptionController.text.trim().isNotEmpty &&
         dateController.text.trim().isNotEmpty) {
-      if (!doedit) {
-        setState(() {
-          todoList.add(
-            ToDoModelClass(
-              title: titleController.text.trim(),
-              description: descriptionController.text.trim(),
-              date: dateController.text.trim(),
-            ),
-          );
-        });
+      if (!doEdit) {
+        todoCard.add(
+          UserData(
+            task: taskController.text,
+            description: descriptionController.text,
+            date: dateController.text,
+          ),
+        );
       } else {
         setState(() {
-          toDoModelObj!.date = dateController.text.trim();
-          toDoModelObj.title = titleController.text.trim();
-          toDoModelObj.description = descriptionController.text.trim();
+          forEditUseDataObj!.task = taskController.text.trim();
+          forEditUseDataObj.description = descriptionController.text.trim();
+          forEditUseDataObj.date = dateController.text.trim();
         });
       }
     }
-    clearController();
   }
 
-  ///TO CLEAR ALL THE TEXT EDITING CONTROLLERS
-  void clearController() {
-    titleController.clear();
+  void clearData() {
+    taskController.clear();
     descriptionController.clear();
     dateController.clear();
   }
 
-  ///REMOVE NOTES
-  void removeTasks(ToDoModelClass toDoModelObj) {
+  void bottomSheet(bool edit, [UserData? forEditObj]) {
+    showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      builder: (BuildContext context) {
+        return Padding(
+          padding: EdgeInsets.only(
+              top: 15,
+              left: 15,
+              right: 15,
+              bottom: MediaQuery.of(context).viewInsets.bottom),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  "Create To-Do",
+                  style: GoogleFonts.lato(
+                    fontSize: 33,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    Text(
+                      "Title",
+                      style: GoogleFonts.quicksand(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 17,
+                        color: const Color.fromRGBO(111, 81, 255, 1),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                TextFormField(
+                  controller: taskController,
+                  // key: taskKey,
+                  decoration: const InputDecoration(
+                    prefixIcon: Icon(Icons.add_task),
+                    label: Text("Enter task"),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(5),
+                      ),
+                      borderSide: BorderSide(
+                        color: Color.fromRGBO(111, 81, 255, 1),
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(5),
+                      ),
+                      borderSide: BorderSide(color: Colors.red),
+                    ),
+                  ),
+                  cursorColor: Colors.black,
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    Text(
+                      "Description",
+                      style: GoogleFonts.quicksand(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 17,
+                        color: const Color.fromRGBO(111, 81, 255, 1),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                TextFormField(
+                  controller: descriptionController,
+                  // key: descriptionKey,
+                  decoration: const InputDecoration(
+                    prefixIcon: Icon(Icons.description_outlined),
+                    label: Text("Enter description"),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(5),
+                      ),
+                      borderSide: BorderSide(
+                        color: Color.fromRGBO(111, 85, 255, 1),
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(5),
+                      ),
+                      borderSide: BorderSide(
+                        color: Colors.red,
+                      ),
+                    ),
+                  ),
+                  cursorColor: Colors.black,
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    Text(
+                      "Date",
+                      style: GoogleFonts.quicksand(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 17,
+                        color: const Color.fromRGBO(111, 81, 255, 1),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                TextFormField(
+                  controller: dateController,
+                  // key: dateKey,
+                  decoration: const InputDecoration(
+                    prefixIcon: Icon(Icons.calendar_month_outlined),
+                    label: Text("Enter Date"),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(5),
+                      ),
+                      borderSide: BorderSide(
+                        color: Color.fromRGBO(111, 81, 255, 1),
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(5),
+                      ),
+                      borderSide: BorderSide(color: Colors.red),
+                    ),
+                  ),
+                  readOnly: true,
+                  onTap: () async {
+                    DateTime? pickupDate = await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(2024),
+                        lastDate: DateTime(2025));
+                    String dateFormat = DateFormat.yMMMd().format(pickupDate!);
+                    setState(
+                      () {
+                        dateController.text = dateFormat;
+                      },
+                    );
+                  },
+                ),
+                const SizedBox(height: 25),
+                SizedBox(
+                  width: 300,
+                  height: 50,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        edit ? submitData(edit, forEditObj) : submitData(edit);
+                      });
+                      Navigator.of(context).pop();
+                    },
+                    style: const ButtonStyle(
+                      shape: MaterialStatePropertyAll(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10),
+                          ),
+                        ),
+                      ),
+                      backgroundColor: MaterialStatePropertyAll(
+                        Color.fromRGBO(111, 81, 255, 1),
+                      ),
+                    ),
+                    child: Text(
+                      "Submit",
+                      style: GoogleFonts.inter(
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white,
+                          fontSize: 25),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void deleteCard(UserData userDataObj) {
     setState(() {
-      todoList.remove(toDoModelObj);
+      todoCard.remove(userDataObj);
     });
   }
 
-  void editTask(ToDoModelClass toDoModelObj) {
-//ASSIGN THE TEXT EDITING CONTROLLERS WITH THE TEXT VALUES AND THEN OPEN THE BOTTOM SHEET
-    titleController.text = toDoModelObj.title;
-    descriptionController.text = toDoModelObj.description;
-    dateController.text = toDoModelObj.date;
-    showBottomSheet(true, toDoModelObj);
-  }
+  void editCard(UserData editUserDataObj) {
+    taskController.text = editUserDataObj.task;
+    descriptionController.text = editUserDataObj.description;
+    dateController.text = editUserDataObj.date;
 
-  @override
-  void dispose() {
-    super.dispose();
-    titleController.dispose();
-    dateController.dispose();
-    descriptionController.dispose();
+    bottomSheet(true, editUserDataObj);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true,
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 185, 32, 212),
-        // centerTitle: true,
-        title: Text(
-          "Hello Sagar...!",
-          style: GoogleFonts.quicksand(
-            fontWeight: FontWeight.w700,
-            fontSize: 25,
-          ),
-        ),
-      ),
-      body: ListView.builder(
-        itemCount: todoList.length,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 15,
-              vertical: 16,
+      backgroundColor: const Color.fromARGB(255, 185, 32, 212),
+      body: Padding(
+        padding: const EdgeInsets.only(top: 60),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(
+                    left: 30,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Hello,",
+                        textAlign: TextAlign.start,
+                        style: GoogleFonts.quicksand(
+                          fontSize: 30,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white,
+                        ),
+                      ),
+                      Text(
+                        "Sagar!",
+                        textAlign: TextAlign.start,
+                        style: GoogleFonts.quicksand(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 37,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-            child: Container(
-              decoration: BoxDecoration(
-                color: listOfColors[index % listOfColors.length],
-                boxShadow: const [
-                  BoxShadow(
-                    offset: Offset(10, 10),
-                    color: Color.fromRGBO(0, 0, 0, 0.3),
-                    blurRadius: 10,
-                  )
-                ],
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
+            const SizedBox(height: 50),
+            Expanded(
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: Color.fromRGBO(217, 217, 217, 1),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(50),
+                    topRight: Radius.circular(50),
+                  ),
+                ),
                 child: Column(
                   children: [
-                    Row(
-                      children: [
-                        Container(
-                          height: 70,
-                          width: 70,
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.circle,
-                          ),
-                          child: const Icon(
-                            Icons.edit_document,
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                todoList[index].title,
-                                style: GoogleFonts.quicksand(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 20,
-                                  color: const Color.fromRGBO(0, 0, 0, 1),
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                todoList[index].description,
-                                style: GoogleFonts.quicksand(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                  color: const Color.fromRGBO(84, 84, 84, 1),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+                    const SizedBox(height: 10),
+                    Text(
+                      "Create Tasks",
+                      style: GoogleFonts.quicksand(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 20,
+                      ),
                     ),
-                    const SizedBox(
-                      height: 14.0,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                      child: Row(
-                        children: [
-                          Text(
-                            todoList[index].date,
-                            style: GoogleFonts.quicksand(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                              color: const Color.fromRGBO(132, 132, 132, 1),
+                    const SizedBox(height: 25),
+                    Expanded(
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(
+                              50,
                             ),
+                            topLeft: Radius.circular(50),
                           ),
-                          const Spacer(),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  editTask(todoList[index]);
-                                },
-                                child: const Icon(
-                                  Icons.edit_outlined,
-                                  color: Color.fromRGBO(0, 139, 148, 1),
+                        ),
+                        child: ListView.builder(
+                          itemCount: todoCard.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Slidable(
+                              closeOnScroll: true,
+                              endActionPane: ActionPane(
+                                extentRatio: 0.2,
+                                motion: const DrawerMotion(),
+                                children: [
+                                  Expanded(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        const SizedBox(height: 0),
+                                        GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              editCard(todoCard[index]);
+                                            });
+                                          },
+                                          child: Container(
+                                            padding: const EdgeInsets.all(10),
+                                            height: 40,
+                                            width: 40,
+                                            decoration: const BoxDecoration(
+                                              color: Color.fromRGBO(
+                                                111,
+                                                81,
+                                                255,
+                                                1,
+                                              ),
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(20),
+                                              ),
+                                            ),
+                                            child: const Icon(
+                                              Icons.edit,
+                                              color: Colors.white,
+                                              size: 20,
+                                            ),
+                                          ),
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              deleteCard(todoCard[index]);
+                                            });
+                                          },
+                                          child: Container(
+                                            height: 40,
+                                            width: 40,
+                                            decoration: const BoxDecoration(
+                                              color: Color.fromRGBO(
+                                                  111, 81, 255, 1),
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(
+                                                  20,
+                                                ),
+                                              ),
+                                            ),
+                                            child: const Icon(
+                                              Icons.delete,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              child: Container(
+                                margin: const EdgeInsets.only(top: 20),
+                                decoration: const BoxDecoration(
+                                    color: Colors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                          blurRadius: 20,
+                                          // spreadRadius: 4,
+                                          offset: (Offset(0, 4)),
+                                          color: Color.fromRGBO(0, 0, 0, 0.13))
+                                    ]),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Container(
+                                          height: 60,
+                                          width: 60,
+                                          margin: const EdgeInsets.all(10),
+                                          decoration: const BoxDecoration(
+                                            color: Colors.white,
+                                            shape: BoxShape.circle,
+                                            image: DecorationImage(
+                                              image: NetworkImage(
+                                                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOeBkBjGkyhZH_2CSVP3kQpzeYqbdUyyKbcA&s",
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        // const SizedBox(width: 5),
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              const SizedBox(height: 10),
+                                              Text(
+                                                todoCard[index].task,
+                                                style: GoogleFonts.inter(
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 20),
+                                                textAlign: TextAlign.justify,
+                                              ),
+                                              const SizedBox(height: 5),
+                                              Text(
+                                                todoCard[index].description,
+                                                textAlign: TextAlign.justify,
+                                                style: GoogleFonts.inter(
+                                                    fontSize: 17),
+                                              ),
+                                              const SizedBox(height: 10),
+                                            ],
+                                          ),
+                                        ),
+                                        Checkbox(
+                                          value: true,
+                                          onChanged: (val) {},
+                                          activeColor: Colors.green,
+                                          shape: const RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(10)),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        const SizedBox(
+                                          width: 80,
+                                        ),
+                                        Text(
+                                          todoCard[index].date,
+                                          style: GoogleFonts.inter(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 15),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 10),
+                                  ],
                                 ),
                               ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  removeTasks(todoList[index]);
-                                },
-                                child: const Icon(
-                                  Icons.delete_outline,
-                                  color: Color.fromRGBO(0, 139, 148, 1),
-                                ),
-                              )
-                            ],
-                          ),
-                        ],
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
             ),
-          );
-        },
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color.fromRGBO(0, 139, 148, 1),
+        backgroundColor: const Color.fromRGBO(111, 81, 255, 1),
         onPressed: () {
-          clearController();
-          showBottomSheet(false);
+          clearData();
+          bottomSheet(false);
         },
         child: const Icon(
-          size: 50,
           Icons.add,
           color: Colors.white,
+          size: 40,
         ),
       ),
     );
