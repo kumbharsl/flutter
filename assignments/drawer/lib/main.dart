@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 void main() {
   runApp(const MainApp());
@@ -27,12 +28,18 @@ class _MyAppState extends State<MyApp> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
-        title: const Text("Drawer Demo"),
+        title: const Text(
+          "Drawer Demo",
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
       ),
       body: const Center(
         child: Text("Drawer"),
       ),
       drawer: Drawer(
+        shape: Border.all(color: Colors.white12),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,8 +57,23 @@ class _MyAppState extends State<MyApp> {
                 ),
               ),
             ),
-            const Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  GestureDetector(
+                    onTap: () {},
+                    child: const Text(
+                      "data",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
             const Spacer(),
             Row(
@@ -61,7 +83,10 @@ class _MyAppState extends State<MyApp> {
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  icon: const Icon(Icons.close),
+                  icon: const Icon(
+                    Icons.close,
+                    color: Colors.red,
+                  ),
                 ),
               ],
             ),
