@@ -1,23 +1,12 @@
 import 'package:flutter/material.dart';
 
-class ProFile extends StatelessWidget {
-  const ProFile({super.key});
+class MyApp1 extends StatefulWidget {
+  const MyApp1({super.key});
   @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: MyApp(),
-    );
-  }
+  State<MyApp1> createState() => _MyAppState1();
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
+class _MyAppState1 extends State<MyApp1> {
   @override
   Widget build(BuildContext context) {
     return Scaffold();
