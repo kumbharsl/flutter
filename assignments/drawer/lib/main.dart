@@ -40,7 +40,7 @@ class _MyAppState extends State<MyApp> {
         child: Text("Data"),
       ),
       drawer: Drawer(
-        shape: Border.all(color: Colors.white12),
+        shape: Border.all(color: Colors.white),
         child: Column(
           // mainAxisAlignment: MainAxisAlignment.start,
           // crossAxisAlignment: CrossAxisAlignment.start,
