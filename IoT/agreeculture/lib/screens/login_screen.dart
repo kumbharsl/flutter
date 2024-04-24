@@ -1,3 +1,4 @@
+import 'package:agreeculture/home/home.dart';
 import 'package:agreeculture/screens/forgot_screen.dart';
 import 'package:agreeculture/widgets/custom_scaffold.dart';
 import 'package:flutter/material.dart';
@@ -166,7 +167,14 @@ class _SignInScreen extends State<SignInScreen> {
                                 rememberPassword) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
-                                  content: Text('Processing Data'),
+                                  backgroundColor: Colors.white,
+                                  content: Text(
+                                    'Login Succesfull',
+                                    style: TextStyle(
+                                        color: Colors.green,
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.bold),
+                                  ),
                                 ),
                               );
                             } else if (!rememberPassword) {
@@ -176,6 +184,12 @@ class _SignInScreen extends State<SignInScreen> {
                                         'Please agree to the processing of personal data')),
                               );
                             }
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (e) => const HomeScreen(),
+                              ),
+                            );
                           },
                           child: const Text('Sign In'),
                         ),
@@ -256,9 +270,9 @@ class _SignInScreen extends State<SignInScreen> {
                           ),
                         ],
                       ),
-                      const SizedBox(
-                        height: 20.0,
-                      ),
+                      // const SizedBox(
+                      //   height: 20.0,
+                      // ),
                     ],
                   ),
                 ),
