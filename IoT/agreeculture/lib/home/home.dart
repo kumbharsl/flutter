@@ -6,23 +6,6 @@ import 'package:agreeculture/home/screen5.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
-    );
-  }
-}
-
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -78,7 +61,7 @@ class _HomeScreen extends State<HomeScreen> {
             animationDuration: const Duration(milliseconds: 500),
             // animationCurve: Curves.linear,
             height: 50,
-            backgroundColor: Colors.transparent,
+            backgroundColor: Colors.grey.shade200,
             items: items,
             index: menuIndex,
             onTap: (index) => setState(() => menuIndex = index),

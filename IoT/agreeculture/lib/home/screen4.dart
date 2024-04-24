@@ -11,6 +11,7 @@ class _Screen4 extends State<Screen4> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey.shade200,
       extendBody: true,
       body: Stack(
         children: [

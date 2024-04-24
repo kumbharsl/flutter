@@ -12,25 +12,28 @@ class _Screen1 extends State<Screen1> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Colors.red,
+      backgroundColor: Colors.grey.shade200,
       extendBody: true,
       body: Stack(
         children: [
           Container(
             // Here the height of the container is 45% of our total height
             height: 300,
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(50),
-                // topRight: Radius.circular(50),
-              ),
-
-              color: Color(0xFFF5CEB8),
-              // image: DecorationImage(
-              //   alignment: Alignment.centerLeft,
-              //   // image: AssetImage("assets/images/undraw_pilates_gpdb.png"),
-              // ),
-            ),
+            decoration: BoxDecoration(
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(200),
+                  // topRight: Radius.circular(50),
+                ),
+                color: Colors.blue.shade300
+                // image: DecorationImage(
+                //   fit: BoxFit.fill,
+                //   image: AssetImage('assets/images/image copy.png'),
+                // ),
+                // image: DecorationImage(
+                //   alignment: Alignment.centerLeft,
+                //   // image: AssetImage("assets/images/undraw_pilates_gpdb.png"),
+                // ),
+                ),
           ),
           SafeArea(
             child: Padding(
@@ -45,7 +48,7 @@ class _Screen1 extends State<Screen1> {
                       height: 32,
                       // width: 52,
                       decoration: const BoxDecoration(
-                        color: Color(0xFFF2BEA1),
+                        // color: Colors.green.shade300,
                         shape: BoxShape.circle,
                       ),
                     ),
@@ -84,7 +87,7 @@ class _Screen1 extends State<Screen1> {
                             decoration: const BoxDecoration(
                               image: DecorationImage(
                                 fit: BoxFit.fill,
-                                image: AssetImage('assets/images/image.png'),
+                                image: AssetImage('assets/images/iot1.png'),
                               ),
                               // color: Colors.grey,
                               borderRadius: BorderRadius.all(
@@ -98,11 +101,11 @@ class _Screen1 extends State<Screen1> {
                                     blurStyle: BlurStyle.normal),
                               ],
                             ),
-                            padding: EdgeInsets.all(8),
+                            padding: const EdgeInsets.all(8),
                             child: const Text.rich(
                               textAlign: TextAlign.center,
                               TextSpan(
-                                text: 'Data',
+                                text: '',
                               ),
                               style: TextStyle(color: Colors.white),
                             ),
@@ -114,6 +117,34 @@ class _Screen1 extends State<Screen1> {
                             height: 50,
                             width: 50,
                             decoration: const BoxDecoration(
+                              image: DecorationImage(
+                                fit: BoxFit.fill,
+                                image: AssetImage('assets/images/solar.png'),
+                              ),
+                              // color: Colors.grey,
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(20),
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Color.fromARGB(255, 131, 128, 128),
+                                    blurRadius: 8,
+                                    offset: Offset(8, 8),
+                                    blurStyle: BlurStyle.normal),
+                              ],
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {},
+                          child: Container(
+                            height: 50,
+                            width: 50,
+                            decoration: const BoxDecoration(
+                              image: DecorationImage(
+                                fit: BoxFit.fill,
+                                image: AssetImage('assets/images/iot1.png'),
+                              ),
                               color: Colors.grey,
                               borderRadius: BorderRadius.all(
                                 Radius.circular(20),
@@ -134,27 +165,11 @@ class _Screen1 extends State<Screen1> {
                             height: 50,
                             width: 50,
                             decoration: const BoxDecoration(
-                              color: Colors.grey,
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(20),
+                              image: DecorationImage(
+                                image: AssetImage('assets/images/rain.png'),
+                                fit: BoxFit.fill,
                               ),
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Color.fromARGB(255, 131, 128, 128),
-                                    blurRadius: 8,
-                                    offset: Offset(8, 8),
-                                    blurStyle: BlurStyle.normal),
-                              ],
-                            ),
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {},
-                          child: Container(
-                            height: 50,
-                            width: 50,
-                            decoration: const BoxDecoration(
-                              color: Colors.grey,
+                              // color: Colors.grey,
                               borderRadius: BorderRadius.all(
                                 Radius.circular(20),
                               ),
