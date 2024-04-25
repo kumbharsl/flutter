@@ -51,7 +51,12 @@ class _MatchSummaryState extends State {
           const SizedBox(height: 50),
           Text("${Provider.of<Player>(context).jerNo}"),
           const SizedBox(height: 50),
-          Text("${Provider.of<Match>(context).matchNo}"),
+          // Consumer(
+          //   builder: (context, value, child) {
+          //     return Text("${Provider.of<Match>(context).matchNo}");
+          //   },
+          // ),
+          // Text("${Provider.of<Match>(context).matchNo}"),
           const SizedBox(height: 50),
           Text("${Provider.of<Match>(context).runs}"),
           const SizedBox(height: 50),
