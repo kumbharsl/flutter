@@ -1,9 +1,39 @@
 import 'package:agreeculture/home/home.dart';
+import 'package:agreeculture/model/login_model.dart';
 import 'package:agreeculture/screens/forgot_screen.dart';
 import 'package:agreeculture/widgets/custom_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:agreeculture/screens/signup_screen.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:sqflite/sqflite.dart';
+
+dynamic database;
+//Login Database.
+Future<void> insertData(LoginModel obj) async {
+  final localDB = await database;
+
+  await localDB.insert(
+    'Sign',
+    obj.loginMap(),
+    conflictAlgorithm: ConflictAlgorithm.replace,
+  );
+}
+
+Future<List> retData() async {
+  final localDB = await database;
+  List retList = await localDB.query("Sign");
+  return List.generate(
+    retList.length,
+    (i) {
+      return LoginModel(
+        name: retList[i]['name'],
+        phone: retList[i]['phone'],
+        email: retList[i]['email'],
+        password: retList[i]['password'],
+      );
+    },
+  );
+}
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -184,7 +214,7 @@ class _SignInScreen extends State<SignInScreen> {
                                         'Please agree to the processing of personal data')),
                               );
                             }
-                            Navigator.push(
+                            Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                 builder: (e) => const HomeScreen(),

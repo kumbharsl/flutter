@@ -1,5 +1,6 @@
 import 'package:agreeculture/home/screen2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class Screen1 extends StatefulWidget {
   const Screen1({super.key});
@@ -12,6 +13,47 @@ class _Screen1 extends State<Screen1> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const Drawer(
+        backgroundColor: Colors.white,
+      ),
+      appBar: AppBar(
+        centerTitle: false,
+        backgroundColor: Colors.blue.shade200,
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Hello!",
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            Text(
+              "Enjoy your day...",
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+          ],
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 8),
+            child: IconButton(
+              onPressed: () {},
+              icon: const Badge(
+                backgroundColor: Colors.green,
+                label: Text(
+                  "3",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 10,
+                  ),
+                ),
+                child: Icon(
+                  Icons.notifications,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
       backgroundColor: Colors.grey.shade200,
       extendBody: true,
       body: Stack(
@@ -21,10 +63,10 @@ class _Screen1 extends State<Screen1> {
             height: 300,
             decoration: BoxDecoration(
                 borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(200),
+                  bottomLeft: Radius.circular(300),
                   // topRight: Radius.circular(50),
                 ),
-                color: Colors.blue.shade300
+                color: Colors.blue.shade200
                 // image: DecorationImage(
                 //   fit: BoxFit.fill,
                 //   image: AssetImage('assets/images/image copy.png'),
@@ -45,7 +87,7 @@ class _Screen1 extends State<Screen1> {
                     alignment: Alignment.topRight,
                     child: Container(
                       alignment: Alignment.center,
-                      height: 32,
+                      height: 12,
                       // width: 52,
                       decoration: const BoxDecoration(
                         // color: Colors.green.shade300,
@@ -53,15 +95,59 @@ class _Screen1 extends State<Screen1> {
                       ),
                     ),
                   ),
-                  const Text(
-                    "Good Morning\nSagar...",
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.w700,
+                  SizedBox(
+                    height: 174,
+                    width: double.infinity,
+                    child: Card(
+                      elevation: 0.1,
+                      shadowColor: Colors.grey,
+                      color: Colors.green.shade50,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            Flexible(
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "free Cunsultation",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleLarge!
+                                        .copyWith(color: Colors.green),
+                                  ),
+                                  const Text(
+                                      "Get free support from our customer survice"),
+                                  FilledButton(
+                                    onPressed: () {},
+                                    child: const Text("Call now"),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Image.asset(
+                              fit: BoxFit.fill,
+                              "assets/images/abt.png",
+                              width: 140,
+                              // height: 20,
+                            )
+                          ],
+                        ),
+                      ),
                     ),
                   ),
+                  // const Text(
+                  //   "Good Morning\nSagar...",
+                  //   style: TextStyle(
+                  //     fontSize: 30,
+                  //     fontWeight: FontWeight.w700,
+                  //   ),
+                  // ),
                   const SizedBox(
-                    height: 120,
+                    height: 20,
                   ),
                   // SearchBar(),
                   Expanded(

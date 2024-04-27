@@ -1,14 +1,27 @@
+import 'package:agreeculture/screens/login_screen.dart';
 import 'package:agreeculture/screens/welcome_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
 
-void main() {
+void main() async {
   runApp(const MyApp());
+  database = openDatabase(
+    join(await getDatabasesPath(), "Info1DB.db"),
+    version: 1,
+    onCreate: (db, version) async {
+      await db.execute('''CREATE TABLE Sign(
+        name TEXT,
+        phone TEXT PRIMARY KEY,
+        username TEXT,
+        password TEXT
+      )''');
+    },
+  );
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
