@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/view/details_screen.dart';
+import 'package:flutter_application_1/controller/product_controller.dart';
+import 'package:flutter_application_1/model/product_model.dart';
+import 'package:flutter_application_1/view/product_display.dart';
+import 'package:provider/provider.dart';
 
 class ProductScreen extends StatefulWidget {
   const ProductScreen({super.key});
@@ -9,6 +12,12 @@ class ProductScreen extends StatefulWidget {
 }
 
 class _ProductScreenState extends State<ProductScreen> {
+  final TextEditingController _productImageTextEditingController =
+      TextEditingController();
+  final TextEditingController _productNameTextEditingController =
+      TextEditingController();
+  final TextEditingController _productPriceTextEditingController =
+      TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,6 +39,7 @@ class _ProductScreenState extends State<ProductScreen> {
           child: Column(
             children: [
               TextFormField(
+                controller: _productImageTextEditingController,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter URL';
@@ -54,6 +64,7 @@ class _ProductScreenState extends State<ProductScreen> {
                 height: 30,
               ),
               TextFormField(
+                controller: _productNameTextEditingController,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter Product Name';
@@ -77,6 +88,7 @@ class _ProductScreenState extends State<ProductScreen> {
                 height: 30,
               ),
               TextFormField(
+                controller: _productPriceTextEditingController,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter Price';
@@ -105,10 +117,22 @@ class _ProductScreenState extends State<ProductScreen> {
                       MaterialStatePropertyAll(Colors.blue.shade200),
                 ),
                 onPressed: () {
+                  var tempObj = ProductModel(
+                    isEmpty: false,
+                    productPrice:
+                        _productPriceTextEditingController.text.trim(),
+                    productName: _productNameTextEditingController.text.trim(),
+                    productImage:
+                        _productImageTextEditingController.text.trim(),
+                    productCount: 0,
+                  );
+
+                  Provider.of<ProductController>(context, listen: false)
+                      .addProductData(pObj: tempObj);
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (e) => const ProductDetails(),
+                      builder: (e) => const ProductDisplay(),
                     ),
                   );
                 },

@@ -1,7 +1,18 @@
+// buildscript {
+//     ext.kotlin_version = '1.7.10'
+//     repositories {
+//         google()
+//         mavenCentral()
+//     }
+
+// }
 allprojects {
     repositories {
         google()
         mavenCentral()
+    }
+    dependencies{
+        classpath'com.google.gms:google-services:4.4.1'
     }
 }
 
