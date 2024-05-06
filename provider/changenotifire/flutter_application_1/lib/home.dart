@@ -16,7 +16,7 @@ class _ChangeNots extends State<ChangeNots> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
-        title: const Text("Change Notes"),
+        title: const Text("Change Note"),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
