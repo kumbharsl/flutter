@@ -15,6 +15,7 @@ class _ChangeNots extends State<ChangeNots> {
     log("IN MAINAPP BUILD");
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         backgroundColor: Colors.blue,
         title: const Text("Change Note"),
       ),
