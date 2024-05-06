@@ -18,7 +18,7 @@ class MainApp extends StatelessWidget {
         return Company(companyName: "Google", empCount: 250);
       },
       child: const MaterialApp(
-        debugShowCheckedModeBanner: true,
+        debugShowCheckedModeBanner: false,
         home: ChangeNots(),
       ),
     );
