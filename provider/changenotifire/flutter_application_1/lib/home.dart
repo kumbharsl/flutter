@@ -17,7 +17,7 @@ class _ChangeNots extends State<ChangeNots> {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.blue,
-        title: const Text("Change Note"),
+        title: const Text("Change Notes"),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
