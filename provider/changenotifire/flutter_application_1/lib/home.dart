@@ -29,7 +29,7 @@ class _ChangeNots extends State<ChangeNots> {
           ElevatedButton(
             onPressed: () {
               Provider.of<Company>(context, listen: false)
-                  .changeCompany("Facebook", 500);
+                  .changeCompany("Microsoft", 500);
             },
             child: const Text("Change Company"),
           ),
